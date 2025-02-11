@@ -1,0 +1,105 @@
+gene_list = ["AT1G0010", "AT1G0020", "AT1G0030", "AT1G0040", "AT1G0050", 
+"AT1G0060", "AT1G0070", "AT1G0080"]
+for genes in gene_list:
+    print(genes)
+
+# Create reverse DNA sequence
+def reverse(s):
+    """
+    Function to create a DNA reverse sequence, starting from the end.
+
+    Parameters:
+    s (str): A string is taken as the input
+
+    Returns:
+    s (str): A reverse version of the input string is returned
+    """
+    return (s[::-1])
+# Complement function
+def complement(s):
+    """
+    The function creates a complementary DNA sequence
+
+    Parameters:
+    s(str): A string of DNA sequences is taken as the input
+
+    Returns:
+    Letters (str): A list consisting of the complementary DNA sequence
+    """
+    # A dictionary that associates each string character (nucleotide) to its complementary character: A to T, C to G
+    basecomplement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A', 'a': 't', 'c': 'g', 
+'g': 'c', 't': 'a', 'M': 'K', 'K': 'M', 'R': 'Y', 'Y': 'R', 'W': 'W', 'S': 'S', 
+'V': 'B', 'B': 'V', 'H': 'D', 'D': 'H', 'N': 'N', '-': '-' }
+    # Create a list using the input string
+    letters = list(s)
+    # For loop to iterate through each base/letter in the list
+    letters = [basecomplement[base] for base in letters]
+    # Return statement to join each character in the list
+    return ''.join(letters)
+# Reverse and Complementary function
+def revcom(s):
+    """
+    The function is a combination of the reverse and complement functions. 
+    The input string is first reversed from the end, then the complementary string of the reversed string is produced
+
+    Parameters:
+    s(str): input
+
+    Return:
+    s (str): reversed and complementary string
+    """
+    return complement(s[::-1])
+
+def fasta_and_reverse_complement(fasta_file: str) -> dict[str, str]:
+    """
+    Parses a FASTA file and produces the reverse complement of each DNA sequence.
+
+    Parameters:
+    fasta_file (str): The path to the FASTA file.
+
+    Returns:
+    dict[str, str]: A dictionary where keys are sequence identifiers (keys) and values are their reverse complements.
+    """
+    # Create an empty dictionary to query
+    reverse_complements = {}
+
+    # Open the file
+    with open(fasta_file, 'r') as file:
+        sequence_id = None
+        # Create an empty list
+        sequence = []
+
+        # For Loop to iterate through the lines
+        for line in file:
+            # Strip whitespaces
+            line = line.strip()
+            # IF statement to specify a header
+            if line.startswith('>'):
+                # If we have a previous sequence, process it
+                if sequence_id is not None:  
+                    # join the sequences
+                    full_sequence = ''.join(sequence)
+                    # Use revcom function
+                    reverse_complements[sequence_id] = revcom(full_sequence)
+                
+                # Get the sequence identifier
+                sequence_id = line[1:]  
+                # Reset the sequence list for the new sequence
+                sequence = []  
+            else:
+                # append the sequences
+                sequence.append(line) 
+
+        # Process the last sequence in the file
+        if sequence_id is not None:
+            full_sequence = ''.join(sequence)
+            reverse_complements[sequence_id] = revcom(full_sequence)
+
+    return reverse_complements
+
+# Example usage:
+fasta_file_path = 'Downloads/AB_test_dta.fasta'
+reverse_complement_dict = fasta_and_reverse_complement(fasta_file_path)
+for seq_id, rev_comp in reverse_complement_dict.items():
+    print(f"{seq_id}: {rev_comp}")
+
