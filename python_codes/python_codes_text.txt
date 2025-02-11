@@ -1,8 +1,10 @@
+# 1
 gene_list = ["AT1G0010", "AT1G0020", "AT1G0030", "AT1G0040", "AT1G0050", 
 "AT1G0060", "AT1G0070", "AT1G0080"]
 for genes in gene_list:
     print(genes)
 
+#2
 # Create reverse DNA sequence
 def reverse(s):
     """
@@ -50,7 +52,8 @@ def revcom(s):
     """
     return complement(s[::-1])
 
-def fasta_and_reverse_complement(fasta_file: str) -> dict[str, str]:
+#3 Write a function that will parse a fasta file and produce a reverse complement.
+def fasta_reverse_complement(fasta_file: str) -> dict[str, str]:
     """
     Parses a FASTA file and produces the reverse complement of each DNA sequence.
 
@@ -99,7 +102,62 @@ def fasta_and_reverse_complement(fasta_file: str) -> dict[str, str]:
 
 # Example usage:
 fasta_file_path = 'Downloads/AB_test_dta.fasta'
-reverse_complement_dict = fasta_and_reverse_complement(fasta_file_path)
+reverse_complement_dict = fasta_reverse_complement(fasta_file_path)
 for seq_id, rev_comp in reverse_complement_dict.items():
     print(f"{seq_id}: {rev_comp}")
 
+# 4 Write a function to put the values in the list below into correct numerical order. Ensure your code is committed correctly.
+# numbers_list =['98', '67', '112', '4', '45', '78'. '99', '100', '-1', '7', '0']
+
+def sort_numerical_list(numbers_list):
+    """
+    This function takes a list of numerical strings and returns a list of sorted integers.
+
+    Parameters:
+    numbers_list (list): A list of strings representing numbers.
+
+    Returns:
+    list: A sorted list of integers in numerical order.
+    """
+    # Convert strings to integers
+    numbers_as_integers = [int(num) for num in numbers_list]
+    
+    # Sort the list
+    sorted_numbers = sorted(numbers_as_integers)
+    
+    return sorted_numbers
+
+# Corrected input list
+numbers_list = ['98', '67', '112', '4', '45', '78', '99', '100', '-1', '7', '0']
+
+# Call the function and print the result
+sorted_numbers = sort_numerical_list(numbers_list)
+print(sorted_numbers)
+
+# 5 Write a function that draws a number at random from the list given in Question 7
+# Import random module
+import random
+# Create a function to draw numbers randomly from a list
+def draw_random_number(numbers_list):
+    """
+    This function draws a random number from the given list of numerical strings.
+
+    Parameters:
+    numbers_list (list): A list of strings representing numbers.
+
+    Returns:
+    int: A randomly selected number from the list.
+    """
+    # Convert strings to integers because the list here has numerical strings
+    numbers_as_ints = [int(num) for num in numbers_list]
+    
+    # Draw a random number
+    random_number = random.choice(numbers_as_ints)
+    
+    return random_number
+
+# Corrected input list
+numbers_list = ['98', '67', '112', '4', '45', '78', '99', '100', '-1', '7', '0']
+
+random_number = draw_random_number(numbers_list)
+print("Randomly Selected Number:", random_number)
